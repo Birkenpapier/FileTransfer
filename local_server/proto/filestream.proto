@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option csharp_namespace = "FileStream";
+
+package filestream;
+
+service FileStreamService {
+  rpc FileStreamRequest (stream FileData) returns (stream FileResponse);
+  rpc FileStreamResponse (FileRequest) returns (stream FileData);
+}
+
+message FileRequest {
+  string msg = 1;
+  string id = 2;
+}
+
+message FileData {
+  message FileMetadata {
+    string type = 1;
+    int32 size = 2;
+    int32 chunkid = 3;
+  }
+
+  bytes chunk = 1;
+  repeated FileMetadata meta = 2;
+  string id = 3;
+}
+
+message FileResponse {
+  string msg = 1;
+  string id = 2;
+}
